@@ -1,52 +1,79 @@
 #include <iostream>
 #include <iomanip>
 #include "libraryy.hpp"
+#include <algorithm>
+#include <ctype.h>
+#include <string>
+#include <cstdlib>
+#include <stdlib.h>
+#include <time.h>
 
 struct studentas
 {
     string vardas, pavarde;
-    float nd[5];
+    float nd[100];
     float egzas;
     float galutinis;
     float mediana;
 };
 
-/*
-void print(studentas kint)
-{
-    cout<<setw(20)<<kint.vardas<<setw(20)<<kint.pavarde;
-    for(auto &i:kint.nd) cout<<setw(5)<<i;
-    cout<<setw(5)<<kint.egzas<<setw(5)<<setprecision(2)<<kint.galutinis<<endl;
-}*/
-
 int main()
 {
+    srand (time(NULL));
     cout<<"Iveskite studentu skaiciu: "<<endl;
-    int n,m;
-    cin>>n; //studentu skaicius
-    cout<<"Iveskite 1, noredami skaiciuoti studentu vidurkius, 2 - namu darbu medianas"<<endl;
-    cin>>m;
-    studentas grupe[n];
+    int n,m,pazymys=0,l;
     float sum=0;
+    cin>>n; //studentu skaicius
+    if(n<1) {cout<<"Ivedete netinkama studentu skaiciu"<<endl; return 0;}
+    cout<<"Iveskite 1, noredami skaiciuoti studentu VIDURKIUS, 2 - namu darbu MEDIANAS"<<endl;
+    cin>>m;
+    if(m!=1&&m!=2) {cout<<"Ivedete netinkama skaiciu"<<endl; return 0;}
+    studentas grupe[n];
     for(int i=0;i<n;i++)
     {
-        if(m!=1&&m!=2)
-        {
-            cout<<"Ivyko klaida: irasete netinkama simboli ar skaiciu"<<endl;
-            break;
-        }
         cout<<"Iveskite "<<i+1<<"-o studento varda ir pavarde: ";
         cin>>grupe[i].vardas>>grupe[i].pavarde;
-        sum=0;
-        for(int j=0;j<5;j++)
+
+        int number=0,number1=0;
+        for (int j=0;grupe[i].vardas[j]!='\0';j++)
         {
-            cout<<"Iveskite "<<j+1<<"-o namu darbo ivertinima: ";
-            cin>>grupe[i].nd[j];
-            sum+=grupe[i].nd[j];
+            // tikrinimas ar yra skaiciu
+            if (isdigit(grupe[i].vardas[j])!=0)
+                number++;
         }
-        for(int j=0;j<5;j++)
+        for (int j=0;grupe[i].pavarde[j]!='\0';j++)
         {
-            for(int k=j;k<5;k++)
+            // tikrinimas ar yra skaiciu
+            if (isdigit(grupe[i].pavarde[j])!=0)
+                number1++;
+        }
+        if(number>0||number1>0) {cout<<"Ivedete netinkama varda arba pavarde"<<endl; return 0;}
+
+        sum=0,l=0;
+        pazymys=rand()%10+1;
+        cout<<"Iveskite "<<l+1<<"-o namu darbo ivertinima: "<<pazymys<<endl;
+        grupe[i].nd[l]=pazymys;
+        l++;
+        sum+=pazymys;
+        while((pazymys=rand()%11)&&(pazymys!=0))
+        {
+            if(pazymys<0||pazymys>10) {cout<<"Ivedete netinkama namu darbo ivertinima"<<endl; return 0;}
+            grupe[i].nd[l]=pazymys;
+            sum+=grupe[i].nd[l];
+            l++;
+            cout<<"Iveskite "<<l<<"-o namu darbo ivertinima: "<<pazymys<<endl;
+        }
+        int *q=new(nothrow) int[l];
+        if(!q) cout<<"allocation of memory failed\n";
+        else
+        {
+            for(int j=0;j<l;j++) q[j]=j;
+        }
+        cout<<endl;
+
+        for(int j=0;j<l;j++)
+        {
+            for(int k=j;k<l;k++)
             {
                 if(grupe[i].nd[j]>grupe[i].nd[k])
                 {
@@ -54,12 +81,24 @@ int main()
                 }
             }
         }
-        if(5%2==1) for(int j=0;j<5;j++) grupe[i].mediana=grupe[i].nd[j/2];
-        else if(5%2==0) for(int j=0;j<5;j++) grupe[i].mediana=(grupe[i].nd[j/2]+grupe[i].nd[(j/2)-1])/2;
+
+        for(int j=0;j<l;j++)
+        {
+            cout<<grupe[i].nd[q[j]]<<" ";
+        }
+        cout<<endl;
+
+        if(l%2==1) grupe[i].mediana=grupe[i].nd[l/2]; //nelyginis nd skaicius
+        else if(l%2==0) grupe[i].mediana=(grupe[i].nd[l/2]+grupe[i].nd[(l/2)-1])/2; //lyginis nd skaicius
 
         cout<<"Iveskite "<<i+1<<"-o studento egzamino ivertinima: ";
-        cin>>grupe[i].egzas;
-        grupe[i].galutinis=0.4*sum/5+0.6*grupe[i].egzas;
+        grupe[i].egzas=rand()%11;
+        cout<<grupe[i].egzas<<endl;
+        if(grupe[i].egzas<0||grupe[i].egzas>10) {cout<<"Ivedete netinkama egzamino ivertinima"<<endl; return 0;}
+
+        grupe[i].galutinis=0.4*sum/l+0.6*grupe[i].egzas;
+
+        delete[] q;
     }
 
     if(m==1)
@@ -68,75 +107,17 @@ int main()
         cout<<"-----------------------------------------------------------------"<<endl;
         for(int i=0;i<n;i++)
         {
-            cout<<grupe[i].vardas<<setw(20)<<grupe[i].pavarde<<setw(20)<<setprecision(2)<<grupe[i].galutinis<<endl;
+            cout<<grupe[i].vardas<<setw(20)<<grupe[i].pavarde<<setw(20)<<setprecision(3)<<grupe[i].galutinis<<endl;
         }
     }
-
     else if(m==2)
     {
         cout<<"Vardas"<<setw(20)<<"Pavarde"<<setw(20)<<"Galutinis (Med.)"<<endl;
         cout<<"-----------------------------------------------------------------"<<endl;
         for(int i=0;i<n;i++)
         {
-            cout<<grupe[i].vardas<<setw(20)<<grupe[i].pavarde<<setw(20)<<setw(20)<<grupe[i].mediana<<endl;
+            cout<<grupe[i].vardas<<setw(20)<<grupe[i].pavarde<<setw(20)<<setprecision(2)<<grupe[i].mediana<<endl;
         }
     }
-    //for(auto &kint:grupe) print(kint);
     return 0;
 }
-/*
-#include <iostream>
-#include <string>
-using std::cout;
-using std::cin;
-using std::endl;
-using std::string;
-
-struct studentas {
-    string vard, pavard;
-    float nd[10]{};
-    float ekzam;
-    float gal;
-};
-
-
-void pild(studentas &kint);
-void printas(studentas &kin);
-
-
-int main()
-{
-
-    studentas st1;
-    studentas st2{ "Vardas2","Pavarde2",{5,8,7,4,5,8,9,5,4},9, 0};
-    //pild(st1);
-    //printas(st1);
-    studentas studentai[10];
-    for (int i = 0; i < 2; i++)
-        pild(studentai[i]);
-    for (int i = 0; i < 2; i++)
-        printas(studentai[i]);
-
-}
-
-void pild(studentas& kint) {
-    int n;
-    cout << "Iveskite studento varda ir pavarde: "; cin >> kint.vard >> kint.pavard;
-    cout << "Kiek namu darbu bus? (1-10)"; cin >> n;
-    cout << "Iveskite pazymius:" << endl;
-    float sum = 0, vid = 0;
-    for (int i = 0; i < n; i++) {
-        cin >> kint.nd[i];
-        sum += kint.nd[i];
-    }
-    vid = sum / n;
-    cout << "Iveskite egzamino pazymi:"; cin >> kint.ekzam;
-    kint.gal = vid * 0.4 + kint.ekzam;
-}
-
-void printas(studentas& kin) {
-    cout << kin.vard << " " << kin.pavard<<" ";
-    for (int i = 0; i < sizeof(kin.nd) / sizeof(kin.nd[0]); i++)
-        cout << kin.nd[i] << " ";
-    cout << "Egzaminas = " << kin.ekzam << "; Galutinis: " << kin.gal<<endl;
-}*/
