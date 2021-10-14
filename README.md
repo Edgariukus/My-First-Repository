@@ -2,6 +2,7 @@
 Štai mano versija ***v0.2***
 1. Sukuriama struktūra *studentas*
 2. Įvedama **1** norint duomenis generuoti atsitiktinai, **2** - skaityti iš failo
+  
   *Jeigu įvedamas* **1:**
 3. Įvedamas studentų skaičius
 4. Įvedama **1** arba **2** norint pasirinkti skaičiuoti studentų **vidurkius** ar **medianas**
@@ -13,4 +14,5 @@
 10. Apskaičiuojamas **vidurkis**
 11. Jei studentų daugiau nei vienas, kartojami 4-9 punktai
 12. Atspausdina ekrane trečiame punkte „užsakytus“ rezultatus
+  
   *Jeigu įvedamas* **2:** nuskaito duomenis iš failo ir gautus rezultatus sukelia į naujai sukuriamą rezultatų failą
