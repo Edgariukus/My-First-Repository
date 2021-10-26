@@ -15,4 +15,4 @@
 13. Atspausdina ekrane trečiame punkte „užsakytus“ rezultatus
 14. ***v0.2*** – *Jeigu įvedamas* **2:** nuskaito duomenis iš failo ir gautus rezultatus sukelia į naujai sukuriamą rezultatų failą
 15. ***v0.3*** – Atliktas kodo reorganizavimas
-16. Panaudotas išimčių valdymas (faile **"duom_isfailo.cpp"**
+16. Panaudotas išimčių valdymas (faile **"duom_isfailo.cpp"**)
