@@ -1,6 +1,6 @@
 # Projektas 1
-Štai mano versija ***v0.2***
-1. Sukuriama struktūra *studentas*
+Štai mano versija ***v0.3***
+1. ***v0.1*** – Sukuriama struktūra *studentas*
 2. Įvedama **1** norint duomenis generuoti atsitiktinai, **2** - skaityti iš failo
 3. *Jeigu įvedamas* **1:**
 4. Įvedamas studentų skaičius
@@ -13,4 +13,6 @@
 11. Apskaičiuojamas **vidurkis**
 12. Jei studentų daugiau nei vienas, kartojami 5-10 punktai
 13. Atspausdina ekrane trečiame punkte „užsakytus“ rezultatus
-14. *Jeigu įvedamas* **2:** nuskaito duomenis iš failo ir gautus rezultatus sukelia į naujai sukuriamą rezultatų failą
+14. ***v0.2*** – *Jeigu įvedamas* **2:** nuskaito duomenis iš failo ir gautus rezultatus sukelia į naujai sukuriamą rezultatų failą
+15. ***v0.3*** – Atliktas kodo reorganizavimas
+16. Panaudotas išimčių valdymas (faile **"duom_isfailo.cpp"**
